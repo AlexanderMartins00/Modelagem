@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0i9bdo1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.6.1">
+  <bpmn:collaboration id="Collaboration_0wo1st6">
+    <bpmn:participant id="Participant_04s0heo" name="Usuario" processRef="Process_1xi2dqa" />
+    <bpmn:participant id="Participant_0cpywy1" name="Sistema" processRef="Process_1me5wzp" />
+    <bpmn:messageFlow id="Flow_0olwdhs" sourceRef="Activity_163xx8c" targetRef="Activity_106ktbp" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_1xi2dqa" isExecutable="false">
+    <bpmn:startEvent id="Event_02paucb">
+      <bpmn:outgoing>Flow_16wqsh3</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="Activity_163xx8c" name="Solicitação de recebimento">
+      <bpmn:incoming>Flow_16wqsh3</bpmn:incoming>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_16wqsh3" sourceRef="Event_02paucb" targetRef="Activity_163xx8c" />
+  </bpmn:process>
+  <bpmn:process id="Process_1me5wzp">
+    <bpmn:task id="Activity_106ktbp" name="Tarefa: Gerar QR Code">
+      <bpmn:outgoing>Flow_1omid4k</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Activity_0dmqd26" name="Aguardar Notificação de Pagamento (WebHook)">
+      <bpmn:incoming>Flow_0s3u96i</bpmn:incoming>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_1f8ts7t">
+        <bpmn:targetRef>DataStoreReference_1mc9sfk</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:task>
+    <bpmn:dataStoreReference id="DataStoreReference_1mc9sfk" name="Atualizar saldo no banco de dados" />
+    <bpmn:endEvent id="Event_06jpt7l">
+      <bpmn:property id="Property_0s9sk68" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DataInputAssociation_0eqzcrd">
+        <bpmn:sourceRef>DataStoreReference_1mc9sfk</bpmn:sourceRef>
+        <bpmn:targetRef>Property_0s9sk68</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:endEvent>
+    <bpmn:subProcess id="Activity_1es5agb" name="Chamar API Asaas para gerar QrCode">
+      <bpmn:incoming>Flow_1omid4k</bpmn:incoming>
+      <bpmn:outgoing>Flow_0s3u96i</bpmn:outgoing>
+    </bpmn:subProcess>
+    <bpmn:sequenceFlow id="Flow_1omid4k" sourceRef="Activity_106ktbp" targetRef="Activity_1es5agb" />
+    <bpmn:sequenceFlow id="Flow_0s3u96i" sourceRef="Activity_1es5agb" targetRef="Activity_0dmqd26" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0wo1st6">
+      <bpmndi:BPMNShape id="Participant_04s0heo_di" bpmnElement="Participant_04s0heo" isHorizontal="true">
+        <dc:Bounds x="156" y="62" width="684" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_02paucb_di" bpmnElement="Event_02paucb">
+        <dc:Bounds x="192" y="72" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_163xx8c_di" bpmnElement="Activity_163xx8c">
+        <dc:Bounds x="270" y="90" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_16wqsh3_di" bpmnElement="Flow_16wqsh3">
+        <di:waypoint x="228" y="90" />
+        <di:waypoint x="249" y="90" />
+        <di:waypoint x="249" y="130" />
+        <di:waypoint x="270" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_0cpywy1_di" bpmnElement="Participant_0cpywy1" isHorizontal="true">
+        <dc:Bounds x="156" y="310" width="684" height="310" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_106ktbp_di" bpmnElement="Activity_106ktbp">
+        <dc:Bounds x="200" y="320" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0dmqd26_di" bpmnElement="Activity_0dmqd26">
+        <dc:Bounds x="390" y="480" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataStoreReference_1mc9sfk_di" bpmnElement="DataStoreReference_1mc9sfk">
+        <dc:Bounds x="565" y="495" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="554" y="552" width="73" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_06jpt7l_di" bpmnElement="Event_06jpt7l">
+        <dc:Bounds x="712" y="502" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1es5agb_di" bpmnElement="Activity_1es5agb" isExpanded="true">
+        <dc:Bounds x="200" y="460" width="140" height="120" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1omid4k_di" bpmnElement="Flow_1omid4k">
+        <di:waypoint x="250" y="400" />
+        <di:waypoint x="250" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0s3u96i_di" bpmnElement="Flow_0s3u96i">
+        <di:waypoint x="340" y="520" />
+        <di:waypoint x="390" y="520" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0olwdhs_di" bpmnElement="Flow_0olwdhs">
+        <di:waypoint x="320" y="170" />
+        <di:waypoint x="320" y="260" />
+        <di:waypoint x="250" y="260" />
+        <di:waypoint x="250" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1f8ts7t_di" bpmnElement="DataOutputAssociation_1f8ts7t">
+        <di:waypoint x="490" y="520" />
+        <di:waypoint x="565" y="520" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataInputAssociation_0eqzcrd_di" bpmnElement="DataInputAssociation_0eqzcrd">
+        <di:waypoint x="615" y="520" />
+        <di:waypoint x="712" y="520" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
